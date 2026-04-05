@@ -6,7 +6,6 @@ export const metadata = {
 export default function RegisterLayout({ children }) {
     return (
         <div
-            className='flex flex-col justify-start items-center mt-10 h-screen w-screen'
         >
             {children}
         </div>

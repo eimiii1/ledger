@@ -6,9 +6,9 @@ import User from "@/lib/models/User";
 import { connectDB } from "@/lib/database";
 
 const registerSchema = z.object({
-    email_address: z.string(),
-    mobile_number: z.string().regex(/^\+?[1-9]\d{9,14}$/, 'Invalid Mobile Number'),
-    password: z.string().min(8).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+    email_address: z.string().email('Invalid email address'),
+    mobile_number: z.string().regex(/^\+?[1-9]\d{9,14}$/, 'Invalid mobile number or number exists.'),
+    password: z.string().min(8).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Password must contain uppercase, lowercase, number and special character')
 })
 
 export async function POST(request) {
@@ -21,7 +21,7 @@ export async function POST(request) {
         const result = registerSchema.safeParse(body)
         if (!result.success) {
             return NextResponse.json(
-                { message: result.error.issues },
+                { message: result.error.issues.map(i => i.message) },
                 { status: 400 }
             )
         }
@@ -49,7 +49,6 @@ export async function POST(request) {
         return response
     } catch (err) {
         if (err.code === 11000) {
-            const field = Object.keys(err.keyValue)[0]
             return NextResponse.json(
                 { message: `Email address already exists!` },
                 { status: 409 }

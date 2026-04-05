@@ -4,12 +4,16 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { AlertCircleIcon } from '@hugeicons/core-free-icons'
 
 export default function Register() {
     const [emailAddress, setEmailAddress] = useState('')
     const [mobileNumber, setMobileNumber] = useState('')
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState(null)
+    const [error, setError] = useState(null)
 
     const router = useRouter()
 
@@ -23,35 +27,46 @@ export default function Register() {
 
             if (!response.ok) {
                 const error = await response.json()
-                setMessage(error.message)
-                console.log(error.message)
-                alert(error.message)
+                setError(error.message)
                 return
             }
 
             const data = await response.json()
             setMessage(data.message)
-            alert(data.message)
+            setEmailAddress('')
+            setMobileNumber('')
+            setPassword('')
         } catch (err) {
-            setMessage(err.message)
             alert(err.message)
+            setError(err.message)
         }
     }
 
-    useEffect(() => {
-        alert('bakla')
-    }, [])
-
     return (
-        <
-            >
-            {message && (
-                <p className='text-red-500 text-sm text-center'>{typeof message === 'string' ? message : JSON.stringify(message)}</p>
-            )}
-            <header className='flex flex-col justify-center items-center p-10'>
+        <div
+            className='flex flex-col justify-start items-center mt-10 p-5 h-screen w-screen'
+        >
+            <header className='flex flex-col justify-center items-center p-10 gap-2'>
                 <h1 className='font-semibold text-4xl'>Sign Up</h1>
-                <p className='text-[#5f4bd2] text-sm font-semibold'>Join Ledger, Manage Smarter.</p>
+                <p className='text-[#5f4bd2] text-sm font-semibold'>Join Ledger. Manage Smarter.</p>
             </header>
+            {error ? (
+                <Alert variant='destructive' className='max-w-md'>
+                    <HugeiconsIcon icon={AlertCircleIcon} />
+                    <AlertTitle>Registration failed</AlertTitle>
+                    <AlertDescription>
+                        {error.map((err, i) => (
+                            <span
+                            key={i}
+                            className='flex flex-col'
+                            >
+                                • {err}
+                            </span>
+                        ))}
+                    </AlertDescription>
+                </Alert>
+            ) : null}
+
             <div className='flex flex-col gap-8 w-screen p-10'>
                 <div className='flex flex-col gap-2'>
                     <Label>Email</Label>
@@ -104,6 +119,6 @@ export default function Register() {
             <footer>
                 Already a member? <span className='text-[#5f4bd2] font-bold'>Login</span>
             </footer>
-        </>
+        </div>
     )
 }
