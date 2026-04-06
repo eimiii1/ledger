@@ -48,16 +48,14 @@ export default function Login() {
     return (
         <div className='flex flex-col justify-start items-center mt-10 p-5 h-screen w-screen'>
             <header className='flex flex-col justify-center items-center p-10 gap-2'>
-                <h1 className='flex flex-col text-center'>
-                    <span className='text-[#5f4bd2] text-4xl font-bold'>Hello,</span>
-                    <span className='font-medium text-3xl'>Welcome back</span>
-                </h1>
+                <h1 className='text-4xl font-semibold'>Hello,</h1>
+                <p className='text-sm text-[#5f4bd2] font-semibold'>Welcome back. Your finances await.</p>
             </header>
 
             {error ? (
-                <Alert variant='destructive' className='max-w-md'>
+                <Alert variant='destructive' className='max-w-md border-0'>
                     <HugeiconsIcon icon={AlertCircleIcon} />
-                    <AlertTitle>Registration failed</AlertTitle>
+                    <AlertTitle>Login failed</AlertTitle>
                     <AlertDescription>
                         <span
                             className='flex flex-col'
@@ -72,7 +70,7 @@ export default function Login() {
                 <div className='flex flex-col gap-2'>
                     <Label>Email</Label>
                     <Input
-                        className='bg-transparent border-t-0 border-r-0 border-l-0 rounded-none p-1 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
+                        className='bg-transparent rounded-sm p-6 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
                         placeholder='e.g. eimii@example.com'
                         value={emailAddress}
                         onChange={e => setEmailAddress(e.target.value)}
@@ -83,7 +81,7 @@ export default function Login() {
                 <div className='flex flex-col gap-2'>
                     <Label>Password</Label>
                     <Input
-                        className='bg-transparent border-t-0 border-r-0 border-l-0 rounded-none p-1 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
+                        className='bg-transparent rounded-sm p-6 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
                         placeholder='e.g. ••••••••'
                         value={password}
                         onChange={e => setPassword(e.target.value)}

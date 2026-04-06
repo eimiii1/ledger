@@ -59,7 +59,7 @@ export default function Register() {
             </header>
 
             {error ? (
-                <Alert variant='destructive' className='max-w-md'>
+                <Alert variant='destructive' className='max-w-md border-0'>
                     <HugeiconsIcon icon={AlertCircleIcon} />
                     <AlertTitle>Registration failed</AlertTitle>
                     <AlertDescription>
@@ -76,7 +76,7 @@ export default function Register() {
                 <div className='flex flex-col gap-2'>
                     <Label>Email</Label>
                     <Input
-                        className='bg-transparent border-t-0 border-r-0 border-l-0 rounded-none p-1 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
+                        className='bg-transparent rounded-sm p-6 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
                         placeholder='e.g. eimii@example.com'
                         value={emailAddress}
                         onChange={e => setEmailAddress(e.target.value)}
@@ -87,7 +87,7 @@ export default function Register() {
                 <div className='flex flex-col gap-2'>
                     <Label>Mobile Number</Label>
                     <Input
-                        className='bg-transparent border-t-0 border-r-0 border-l-0 rounded-none p-1 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
+                        className='bg-transparent rounded-sm p-6 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
                         placeholder='Enter Mobile No.'
                         value={mobileNumber}
                         onChange={e => setMobileNumber(e.target.value)}
@@ -98,7 +98,7 @@ export default function Register() {
                 <div className='flex flex-col gap-2'>
                     <Label>Password</Label>
                     <Input
-                        className='bg-transparent border-t-0 border-r-0 border-l-0 rounded-none p-1 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
+                        className='bg-transparent rounded-sm p-6 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
                         placeholder='e.g. ••••••••'
                         value={password}
                         onChange={e => setPassword(e.target.value)}
