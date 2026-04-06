@@ -10,8 +10,8 @@ import { AlertCircleIcon } from '@hugeicons/core-free-icons'
 import Link from 'next/link'
 
 export default function Register() {
+    const [name, setName] = useState('')
     const [emailAddress, setEmailAddress] = useState('')
-    const [mobileNumber, setMobileNumber] = useState('')
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState(null)
     const [error, setError] = useState(null)
@@ -24,8 +24,8 @@ export default function Register() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    name,
                     email_address: emailAddress,
-                    mobile_number: mobileNumber,
                     password
                 })
             })
@@ -38,8 +38,8 @@ export default function Register() {
 
             const data = await response.json()
             setMessage(data.message)
+            setName('')
             setEmailAddress('')
-            setMobileNumber('')
             setPassword('')
             setError(null)
             router.push('/profile')
@@ -51,10 +51,10 @@ export default function Register() {
 
     return (
         <div
-            className='flex flex-col justify-start items-center mt-10 p-5 h-screen w-screen'
+            className='flex flex-col justify-start items-center p-5 h-screen w-screen'
         >
             <header className='flex flex-col justify-center items-center p-10 gap-2'>
-                <h1 className='font-semibold text-4xl'>Sign Up</h1>
+                <h1 className='font-semibold text-4xl w-full text-center'>Create your account</h1>
                 <p className='text-[#5f4bd2] text-sm font-semibold'>Join Ledger. Manage Smarter.</p>
             </header>
 
@@ -72,12 +72,21 @@ export default function Register() {
                 </Alert>
             ) : null}
 
-            <div className='flex flex-col gap-8 w-screen p-10'>
+            <div className='flex flex-col gap-4 w-screen p-10'>
+                <div className='flex flex-col gap-2'>
+                    <Label>Name</Label>
+                    <Input
+                        className='bg-transparent rounded-sm p-5 focus-visible:ring-[#5f4bd2] focus-visible:ring-[1.5px]'
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                        required
+                        type='text'
+                    />
+                </div>
                 <div className='flex flex-col gap-2'>
                     <Label>Email</Label>
                     <Input
-                        className='bg-transparent rounded-sm p-6 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
-                        placeholder='e.g. eimii@example.com'
+                        className='bg-transparent rounded-sm p-5 focus-visible:ring-[#5f4bd2] focus-visible:ring-[1.5px]'
                         value={emailAddress}
                         onChange={e => setEmailAddress(e.target.value)}
                         required
@@ -85,21 +94,9 @@ export default function Register() {
                     />
                 </div>
                 <div className='flex flex-col gap-2'>
-                    <Label>Mobile Number</Label>
-                    <Input
-                        className='bg-transparent rounded-sm p-6 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
-                        placeholder='Enter Mobile No.'
-                        value={mobileNumber}
-                        onChange={e => setMobileNumber(e.target.value)}
-                        required
-                        type='text'
-                    />
-                </div>
-                <div className='flex flex-col gap-2'>
                     <Label>Password</Label>
                     <Input
-                        className='bg-transparent rounded-sm p-6 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
-                        placeholder='e.g. ••••••••'
+                        className='bg-transparent rounded-sm p-5 focus-visible:ring-[#5f4bd2] focus-visible:ring-[1.5px]'
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         required
@@ -115,14 +112,15 @@ export default function Register() {
             </div>
             <div className='w-screen p-10 pb-20'>
                 <Button
-                    className='w-full p-6 font-bold'
+                    className='w-full p-6 font-bold rounded-sm'
                     style={{ background: 'linear-gradient(to right, #4b3c9f, #5f4bd2)' }}
                     type='button'
                     onClick={handleRegister}
                 >SIGN UP</Button>
             </div>
             <footer>
-                Already a member? <Link href='/login' className='text-[#5f4bd2] font-bold'>Login</Link>
+                <span className='font-medium opacity-60'>Already a member? </span> {' '}
+                <Link href='/login' className='text-[#5f4bd2] font-bold'>Login</Link>
             </footer>
         </div>
     )

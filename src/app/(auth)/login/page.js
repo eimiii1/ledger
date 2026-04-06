@@ -21,7 +21,7 @@ export default function Login() {
         try {
             const response = await fetch('api/auth/login', {
                 method: 'POST',
-                headers: {'Content-Type' : 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email_address: emailAddress,
                     password
@@ -46,9 +46,9 @@ export default function Login() {
     }
 
     return (
-        <div className='flex flex-col justify-start items-center mt-10 p-5 h-screen w-screen'>
+        <div className='flex flex-col justify-start items-center p-5 h-screen w-screen'>
             <header className='flex flex-col justify-center items-center p-10 gap-2'>
-                <h1 className='text-4xl font-semibold'>Hello,</h1>
+                <h1 className='text-4xl font-semibold w-full text-center'>Sign in to your account</h1>
                 <p className='text-sm text-[#5f4bd2] font-semibold'>Welcome back. Your finances await.</p>
             </header>
 
@@ -65,13 +65,12 @@ export default function Login() {
                     </AlertDescription>
                 </Alert>
             ) : null}
-            
-            <div className='flex flex-col gap-8 w-screen p-10'>
+
+            <div className='flex flex-col gap-4 w-screen p-10'>
                 <div className='flex flex-col gap-2'>
                     <Label>Email</Label>
                     <Input
-                        className='bg-transparent rounded-sm p-6 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
-                        placeholder='e.g. eimii@example.com'
+                        className='bg-transparent rounded-sm p-5 focus-visible:ring-[#5f4bd2] focus-visible:ring-[1.5px]'
                         value={emailAddress}
                         onChange={e => setEmailAddress(e.target.value)}
                         required
@@ -79,30 +78,33 @@ export default function Login() {
                     />
                 </div>
                 <div className='flex flex-col gap-2'>
-                    <Label>Password</Label>
+                    <div className='flex justify-between'>
+                        <Label>Password</Label>
+                        <Label>
+                            <Link
+                                href='/forgot-password'
+                                className='text-[#5f4bd2] font-semibold'
+                            >Forgot Password?</Link>
+                        </Label>
+                    </div>
                     <Input
-                        className='bg-transparent rounded-sm p-6 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-trasparent'
-                        placeholder='e.g. ••••••••'
+                        className='bg-transparent rounded-sm p-5 focus-visible:ring-[#5f4bd2] focus-visible:ring-[1.5px]'
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         required
                         type='password'
                     />
                 </div>
-            </div>
-            <Button variant='link'>
-                <Link href='/forgot-password'>Forgot Password?</Link>
-            </Button>
-            <div className='w-screen p-10 pb-20'>
                 <Button
-                    className='w-full p-6 font-bold'
+                    className='w-full p-6 font-bold rounded-sm'
                     style={{ background: 'linear-gradient(to right, #5f4bd2, #4b3c9f)' }}
                     type='button'
                     onClick={handleLogin}
                 >LOG IN</Button>
             </div>
             <footer>
-                New to Ledger? <Link href='/register' className='text-[#5f4bd2] font-bold'>Sign Up</Link>
+                <span className='font-medium opacity-60'>New to Ledger?</span> {' '}
+                <Link href='/register' className='text-[#5f4bd2] font-bold'>Create an account</Link>
             </footer>
         </div>
     )
