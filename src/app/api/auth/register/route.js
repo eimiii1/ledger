@@ -6,16 +6,14 @@ import User from "@/lib/models/User";
 import { connectDB } from "@/lib/database";
 
 const registerSchema = z.object({
+    name: z.string().min(1, 'Name field cannot be empty'),
     email_address: z.string().email('Invalid email address'),
-    mobile_number: z.string().regex(/^\+?[1-9]\d{9,14}$/, 'Invalid mobile number or number exists.'),
     password: z.string().min(8).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Password must contain uppercase, lowercase, number and special character')
 })
 
 export async function POST(request) {
     try {
         await connectDB()
-        const indexes = await User.collection.indexes()
-        console.log(indexes)
         const body = await request.json()
         console.log(body)
         const result = registerSchema.safeParse(body)
@@ -30,8 +28,8 @@ export async function POST(request) {
         const hashedPassword = await bcrypt.hash(result.data.password, 10)
 
         const user = await User.create({
+            name: result.data.name,
             email_address: result.data.email_address,
-            mobile_number: result.data.mobile_number,
             password: hashedPassword
         })
 
