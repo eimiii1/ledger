@@ -23,7 +23,11 @@ export default function Register() {
             const response = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email_address: emailAddress, mobile_number: mobileNumber, password })
+                body: JSON.stringify({
+                    email_address: emailAddress,
+                    mobile_number: mobileNumber,
+                    password
+                })
             })
 
             if (!response.ok) {
@@ -37,6 +41,7 @@ export default function Register() {
             setEmailAddress('')
             setMobileNumber('')
             setPassword('')
+            setError(null)
             router.push('/profile')
         } catch (err) {
             alert(err.message)
@@ -52,16 +57,17 @@ export default function Register() {
                 <h1 className='font-semibold text-4xl'>Sign Up</h1>
                 <p className='text-[#5f4bd2] text-sm font-semibold'>Join Ledger. Manage Smarter.</p>
             </header>
+
             {error ? (
                 <Alert variant='destructive' className='max-w-md'>
                     <HugeiconsIcon icon={AlertCircleIcon} />
                     <AlertTitle>Registration failed</AlertTitle>
                     <AlertDescription>
-                            <span
-                                className='flex flex-col'
-                            >
-                                • {error}
-                            </span>
+                        <span
+                            className='flex flex-col'
+                        >
+                            • {error}
+                        </span>
                     </AlertDescription>
                 </Alert>
             ) : null}

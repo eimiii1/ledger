@@ -17,7 +17,7 @@ export async function POST(request) {
         const result = loginSchema.safeParse(body)
         if (!result.success) {
             return NextResponse.json(
-                { message: result.error.issues },
+                { message: result.error.issues[0].message },
                 { status: 400 }
             )
         }
@@ -25,6 +25,12 @@ export async function POST(request) {
         // * if input are validated -> fetch in database -> compare password
         const { email_address, password } = result.data
         const user = await User.findOne({ email_address })
+        if (!user) {
+            return NextResponse.json(
+                { message: 'Email not found' },
+                { status: 401 }
+            )
+        }
 
         const compare = await bcrypt.compare(password, user.password)
         if (!compare) {
@@ -35,18 +41,18 @@ export async function POST(request) {
         }
 
         // * if password match -> create a session token
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {expiresIn: '1d'})
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' })
 
         const response = NextResponse.json(
             { message: 'Login Successful!' },
             { status: 200 }
         )
-        
+
         response.cookies.set('token', token, {
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
-        
+
         return response
     } catch (err) {
         return NextResponse.json(
